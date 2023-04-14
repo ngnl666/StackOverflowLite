@@ -38,7 +38,7 @@ function QuestionList(props: Props) {
 				<Suspense fallback={<Skeleton />}>
 					{questions &&
 						questions.map((question) => (
-							<Question question={question} viewedList={viewedList} setViewedList={setViewedList} key={+question.creation_date} />
+							<Question question={question} viewedList={viewedList} setViewedList={setViewedList} key={question.question_id} />
 						))}
 				</Suspense>
 				<div ref={bottomRef} className="h-10 w-full">

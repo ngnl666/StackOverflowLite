@@ -35,15 +35,20 @@ export default function Home() {
 	/* custom hook to debounce the fetchTags action (Performence optimization!!!) */
 	useDebounce(() => dispatch(fetchTags(keyword)), 1000, [keyword]);
 
-	useEffect(() => {
-		if (selectedTagName) dispatch(fetchQuestions(selectedTagName, currPage));
-	}, [currPage, selectedTagName]);
+	useDebounce(
+		() => {
+			if (selectedTagName) dispatch(fetchQuestions(selectedTagName, currPage));
+		},
+		350,
+		[currPage],
+	);
 
 	useEffect(() => {
-		/* if selectedTagName changed goto the top of page and clear the question list */
 		if (tags.length) {
 			window.scrollTo(0, 0);
 			dispatch(clearQuestion());
+			if (currPage === 1) dispatch(fetchQuestions(selectedTagName, currPage));
+			setCurrPage(1);
 		}
 	}, [selectedTagName]);
 
